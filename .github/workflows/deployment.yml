@@ -24,4 +24,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: mario1manuel/sentence-analyzer:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/sentence-analyzer:latest
