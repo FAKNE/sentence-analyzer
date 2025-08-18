@@ -1,0 +1,45 @@
+openapi: 3.0.3
+info:
+  title: Sentence Analyzer API
+  version: 1.0.0
+  description: Simple API to count words, vowels, and consonants in a sentence
+
+paths:
+  /analyze:
+    post:
+      summary: Analyze a sentence
+      description: Returns the number of words, vowels, and consonants in the given sentence
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sentence:
+                  type: string
+                  example: "THANK YOU GOD"
+      responses:
+        "200":
+          description: Successful analysis
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  words:
+                    type: integer
+                    example: 3
+                  vowels:
+                    type: integer
+                    example: 4
+                  consonants:
+                    type: integer
+                    example: 7
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "Invalid request"
