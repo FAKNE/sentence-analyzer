@@ -1,50 +1,41 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.0"
-    }
-    tls = {
-      source  = "hashicorp/tls"
-      version = "~> 4.0"
-    }
+resource "aws_security_group" "allow_ssh_http" {
+  name        = "allow_ssh_http"
+  description = "Allow SSH and HTTP"
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
-  required_version = ">= 1.2.0"
-}
 
-# Provider
-provider "aws" {
-  region = var.aws_region
-}
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-# Generate an RSA private key
-resource "tls_private_key" "nb-keypair" {
-  algorithm = "RSA"
-  rsa_bits  = 2048
-}
-
-# Save the private key to a local file
-resource "local_file" "private_key" {
-  content  = tls_private_key.nb-keypair.private_key_pem
-  filename = "${path.root}/nb-key-pair.pem"
-}
-
-# Create an AWS Key Pair using the generated public key
-resource "aws_key_pair" "nb-keypair" {
-  key_name   = "nb-key-pair"
-  public_key = tls_private_key.nb-keypair.public_key_openssh
-  lifecycle {
-    create_before_destroy = true
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
-# Deploy an EC2 instance using the key pair
-resource "aws_instance" "demo-instance" {
-  ami           = var.aws_ami_image
-  instance_type = var.aws_instance_type
-  key_name      = aws_key_pair.nb-keypair.key_name
+resource "aws_instance" "microservice_instance" {
+  ami           = var.ami_id
+  instance_type = var.instance_type
+  key_name      = var.key_name
+  vpc_security_group_ids = [aws_security_group.allow_ssh_http.id]
 
   tags = {
-    Name = "EC2 Instance"
+    Name = "microservice_instance"
   }
+}
+
+resource "aws_key_pair" "default" {
+  key_name   = var.key_name
+  public_key = file("ssh_public_key.pub")
 }
