@@ -37,7 +37,7 @@ jobs:
 
   configuration:
     runs-on: ubuntu-latest
-    needs: terraform
+    needs: provisioning
 
     steps:
       - name: Checkout code
