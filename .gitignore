@@ -6,6 +6,7 @@
 *.dylib
 *.test
 *.out
+.terraform*
 
 # Go module files
 /go.sum

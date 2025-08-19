@@ -1,16 +1,23 @@
+variable "aws_key_name" {
+  description = "The name of the AWS Key Pair to use"
+  type        = string
+  default     = "nb-key-pair"
+}
+
+variable "aws_ami_image" {
+  description = "The AWS AMI to use"
+  type        = string
+  default     = "ami-09042b2f6d07d164a"
+}
+
 variable "aws_region" {
-  default = "us-east-1"
+  description = "The AWS region to deploy resources"
+  type        = string
+  default     = "eu-central-1"
 }
 
-variable "instance_type" {
-  default = "t2.micro"
-}
-
-variable "ami_id" {
-  default = "ami-0c94855ba95c71c99"
-}
-
-variable "key_name" {
-  description = "AWS Key Pair name for SSH access"
-  default     = "my-key-pair"
+variable "aws_instance_type" {
+  description = "The AWS instance type to use"
+  type        = string
+  default     = "t2.micro"
 }
