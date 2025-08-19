@@ -19,5 +19,5 @@ variable "aws_region" {
 variable "aws_instance_type" {
   description = "The AWS instance type to use"
   type        = string
-  default     = "t2.micro"
+  default     = "t3.micro"
 }
