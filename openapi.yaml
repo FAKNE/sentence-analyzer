@@ -2,44 +2,81 @@ openapi: 3.0.3
 info:
   title: Sentence Analyzer API
   version: 1.0.0
-  description: Simple API to count words, vowels, and consonants in a sentence
+  description: API to count words, vowels, and consonants in a sentence
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+  schemas:
+    Request:
+      type: object
+      required:
+        - sentence
+      properties:
+        sentence:
+          type: string
+          example: "THANK YOU GOD"
+
+    Response:
+      type: object
+      properties:
+        words:
+          type: integer
+          example: 3
+        vowels:
+          type: integer
+          example: 4
+        consonants:
+          type: integer
+          example: 7
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Invalid request"
+
+security:
+  - ApiKeyAuth: []
 
 paths:
   /analyze:
     post:
       summary: Analyze a sentence
-      description: Returns the number of words, vowels, and consonants in the given sentence
+      description: Returns the number of words, vowels, and consonants in the given sentence.
+      security:
+        - ApiKeyAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                sentence:
-                  type: string
-                  example: "THANK YOU GOD"
+              $ref: "#/components/schemas/Request"
       responses:
         "200":
           description: Successful analysis
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  words:
-                    type: integer
-                    example: 3
-                  vowels:
-                    type: integer
-                    example: 4
-                  consonants:
-                    type: integer
-                    example: 7
+                $ref: "#/components/schemas/Response"
         "400":
           description: Invalid request
           content:
             application/json:
               schema:
-                type: string
-                example: "Invalid request"
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized - missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
