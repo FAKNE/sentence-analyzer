@@ -36,11 +36,6 @@ resource "aws_security_group" "allow_ssh_http" {
   }
 }
 
-resource "aws_key_pair" "default" {
-  key_name   = var.key_name
-  public_key = file("ec2_public_key.pub")
-}
-
 resource "aws_instance" "k3s_node" {
   ami           = var.ami_id
   instance_type = var.instance_type

@@ -12,5 +12,5 @@ variable "ami_id" {
 
 variable "key_name" {
   description = "AWS Key Pair name for SSH access"
-  default     = "sentence-analyzer-key-pair"
+  default     = "my-key-pair"
 }
