@@ -1,0 +1,42 @@
+# Go build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Go module files
+/go.sum
+/go.mod
+
+# Dependency directories
+vendor/
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Docker
+*.log
+*.pid
+*.seed
+docker-compose.override.yml
+docker-compose.*.yml
+
+# GitHub Actions caches
+.github/workflows/.cache/
