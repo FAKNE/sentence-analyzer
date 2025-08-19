@@ -4,10 +4,6 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.0"
     }
-    tls = {
-      source  = "hashicorp/tls"
-      version = "~> 4.0"
-    }
   }
   required_version = ">= 1.2.0"
 }
@@ -33,6 +29,9 @@ resource "local_file" "private_key" {
 resource "aws_key_pair" "nb-keypair" {
   key_name   = "nb-key-pair"
   public_key = tls_private_key.nb-keypair.public_key_openssh
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 # Deploy an EC2 instance using the key pair
