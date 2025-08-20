@@ -7,6 +7,9 @@
 *.test
 *.out
 .terraform*
+*.tfstate
+*.tfstate*
+
 
 # Go module files
 /go.sum

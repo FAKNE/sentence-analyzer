@@ -1,0 +1,74 @@
+---
+- name: Setup K3s and Pull Go App
+  hosts: microservice
+  become: yes
+
+  vars:
+    manifest_path: /home/ubuntu/manifests
+
+  tasks:
+    # -- Install required packages
+    - name: Install curl and other dependencies
+      apt:
+        name:
+          - curl
+        state: present
+        update_cache: yes
+
+    # -- Install Docker
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    # -- Install K3s
+    - name: Install K3s
+      shell: curl -sfL https://get.k3s.io | sh -
+      args:
+        creates: /usr/local/bin/k3s
+
+    - name: Wait for K3s node to be Ready
+      shell: k3s kubectl get nodes --no-headers | awk '{print $2}'
+      register: k3s_status
+      retries: 10
+      delay: 10
+      until: k3s_status.stdout.find('Ready') != -1
+
+    # -- Prepare directory for Kubernetes files
+    - name: Create directory for K3s manifests
+      file:
+        path: "{{ manifest_path }}"
+        state: directory
+        mode: "0755"
+
+    # -- Copy deployment.yml and service.yml
+    - name: Copy deployment.yml
+      copy:
+        src: manifests/deployment.yml
+        dest: "{{ manifest_path }}/deployment.yml"
+
+    - name: Copy service.yml
+      copy:
+        src: manifests/service.yml
+        dest: "{{ manifest_path }}/service.yml"
+
+    # -- Deploy to K3s (uncomment if you want to apply)
+    - name: Apply Kubernetes Deployment
+      shell: k3s kubectl apply -f {{ manifest_path }}/deployment.yml
+
+    - name: Apply Kubernetes Service
+      shell: k3s kubectl apply -f {{ manifest_path }}/service.yml
+
+    - name: Verify deployment
+      shell: k3s kubectl get pods
+      register: pods_status
+
+    - debug:
+        var: pods_status.stdout

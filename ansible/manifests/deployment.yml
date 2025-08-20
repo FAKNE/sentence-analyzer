@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sentence-analyzer
+  labels:
+    app: sentence-analyzer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sentence-analyzer
+  template:
+    metadata:
+      labels:
+        app: sentence-analyzer
+    spec:
+      containers:
+        - name: sentence-analyzer
+          image: mario1manuel/sentence-analyzer:latest
+          ports:
+            - containerPort: 8080

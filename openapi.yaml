@@ -4,10 +4,6 @@ info:
   version: 1.0.0
   description: API to count words, vowels, and consonants in a sentence
 
-servers:
-  - url: http://localhost:8080
-    description: Local development server
-
 components:
   securitySchemes:
     ApiKeyAuth:

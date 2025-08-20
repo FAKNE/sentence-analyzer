@@ -13,7 +13,7 @@ variable "instance_type" {
 variable "ami_id" {
   description = "The AWS AMI to use"
   type        = string
-  default     = "ami-0c94855ba95c71c99"
+  default     = "ami-0ca5a2f40c2601df6"
 }
 
 variable "key_name" {

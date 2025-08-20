@@ -25,6 +25,7 @@ resource "aws_security_group" "allow_ssh_http" {
 }
 
 resource "aws_instance" "microservice_instance" {
+  monitoring = true 
   ami           = var.ami_id
   instance_type = var.instance_type
   key_name      = var.key_name
