@@ -23,7 +23,7 @@ O objetivo é demonstrar competências em:
 
 A seguir uma descrição detalhada de cada diretório e arquivo presente no repositório:
 
-### `app/`
+### `root`
 
 Contém o código-fonte do microserviço em Go.
 
@@ -46,7 +46,7 @@ Playbooks do **Ansible** responsáveis pela configuração do servidor.
 - **playbook.yml** → instala pacotes necessários, configura Docker e instala o K3s.
 - **hosts** → inventário com o IP da instância EC2 provisionada.
 
-### `deploy/`
+### `ansible/manifests`
 
 Manifests Kubernetes para rodar a aplicação dentro do cluster K3s.
 
@@ -58,7 +58,7 @@ Manifests Kubernetes para rodar a aplicação dentro do cluster K3s.
 Arquivo responsável por criar a imagem da aplicação Go.  
 Foi construído como **multi-stage build**, para reduzir o tamanho final da imagem.
 
-### `.github/workflows/ci-cd.yml`
+### `.github/workflows/deployment.yml`
 
 Arquivo de configuração do pipeline **GitHub Actions**.  
 Ele orquestra todas as etapas: provisionamento, configuração, build, push e deploy.
