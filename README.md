@@ -131,42 +131,6 @@ O fluxo completo pode ser resumido em:
 
 ---
 
-## 🔍 Evidências de Deploy
-
-- **Pods em execução:**
-
-```bash
-kubectl get pods
-NAME                          READY   STATUS    RESTARTS   AGE
-go-microservice-6d77f7bb9c    1/1     Running   0          3m
-```
-
-- **Serviço exposto:**
-
-```bash
-kubectl get svc
-NAME              TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
-go-microservice   NodePort   10.43.87.129   <none>        8080:30080/TCP   3m
-```
-
-- **Teste da API:**
-
-```bash
-curl -X POST http://<EC2-IP>:<NodePort>/analyze      -H "Content-Type: application/json"      -d '{"sentence":"Hello from Mozambique"}'
-```
-
-Resposta esperada:
-
-```json
-{
-  "words": 3,
-  "vowels": 9,
-  "consonants": 12
-}
-```
-
----
-
 ## 🌟 Melhorias Futuras
 
 - ✅ Adicionar testes unitários mais completos no Go
